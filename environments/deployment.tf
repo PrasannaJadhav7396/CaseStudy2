@@ -4,8 +4,8 @@ resource "aws_launch_configuration" "app" {
   image_id      = var,ami_id
   instance_type = var.instance_type
 }
- 
-resource "aws_autoscaling_group" "app" {
+
+resource "aws_autoscaling_group" "web_app" {
   count                = var.env_enabled
   launch_configuration = aws_launch_configuration[0].app.id
   min_size             = var.min_size
@@ -66,5 +66,16 @@ resource "aws_lb_target_group" "app" {
   name     = "${var.environment_name}-tg"
   port     = 80
   protocol = "HTTP"
-  vpc_id   = "vpc-324235"
+  vpc_id   = "vpc-324235"
+}
+
+resource "aws_route53_record" "route53_record" {
+  zone_id = "Z6722HSDJ21M"
+  name    = "casestudy2.com"
+  type    = "A"
+  alias {
+    name                   = aws_lb.web_app.dns_name
+    zone_id                = aws_lb.web_app.zone_id
+    evaluate_target_health = true
+  }
 }

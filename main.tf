@@ -26,10 +26,11 @@ module "green_environment" {
   alb_path_pattern = var.alb_path_pattern
 }
 
+
 # DNS record with weighted routing policy 
 resource "aws_route53_record" "weighted_routing_record" {
-  zone_id = "your_zone_id"  # Replace with your Route 53 hosted zone ID
-  name    = "casestudy2.com" # Replace with domain
+  zone_id = "Z6722HSDJ21M"  
+  name    = "casestudy2.com" 
   type    = "A"
  
   weighted_routing_policy {
